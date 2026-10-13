@@ -1,0 +1,86 @@
+export const cuttingPlan = {
+  title: "Cutting e preservação de massa",
+  goal: "Redução de gordura corporal com preservação da massa muscular",
+  personName: "Pedro Italo da Silva Hermes",
+  ageYears: 28,
+  weightKg: 89,
+  heightM: 1.71,
+  waterLiters: 4,
+  weeklyLossMinKg: 0.4,
+  weeklyLossMaxKg: 0.7,
+  referenceWeight: "83–84 kg",
+  guidelines: [
+    "Hidratação: manter consumo de 4 litros de água por dia.",
+    "Cárdio: realizar 15–20 minutos de caminhada rápida após o treino de força.",
+    "Manter a intensidade da musculação e buscar preservar as cargas e o desempenho durante o cutting.",
+    "Acompanhar o peso pela média semanal, juntamente com medidas da cintura e fotos periódicas.",
+    "Meta inicial de acompanhamento: aproximadamente 0,4–0,7 kg de redução por semana.",
+    "Primeira referência de peso: 83–84 kg, com nova avaliação antes de continuar a redução.",
+    "As quantidades de arroz, macarrão e cuscuz correspondem aos alimentos já cozidos.",
+  ],
+  meals: [
+    {
+      name: "Café da Manhã",
+      time: "05:30",
+      notes: null,
+      items: [
+        "Pão francês: 2 unidades ou pão de forma: 4 fatias",
+        "Ovos inteiros: 4 unidades (cozidos ou mexidos)",
+        "Iogurte natural/desnatado: 170g (1 pote)",
+        "Banana: 1 unidade",
+      ],
+    },
+    {
+      name: "Lanche da Manhã",
+      time: "09:30",
+      notes: "Praticidade",
+      items: [
+        "Whey protein: 30g (1 scoop médio)",
+        "Banana: 1 unidade",
+        "Iogurte natural/desnatado: 170g (1 pote)",
+        "Aveia em flocos: 25g",
+      ],
+    },
+    {
+      name: "Almoço",
+      time: "12:30",
+      notes: null,
+      items: [
+        "Arroz branco ou integral cozido: 200g ou macarrão cozido: 250g",
+        "Peito de frango ou carne moída magra: 180g",
+        "Verduras/legumes: 100–150g (cenoura, brócolis, chuchu ou outro)",
+        "Salada verde: à vontade",
+      ],
+    },
+    {
+      name: "Lanche da Tarde",
+      time: "16:00",
+      notes: "Pré-treino",
+      items: [
+        "Macarrão cozido: 100g",
+        "Ovos inteiros: 2 unidades",
+        "Queijo branco ou mussarela: 1 fatia (30g)",
+      ],
+    },
+    {
+      name: "Jantar",
+      time: "19:30",
+      notes: null,
+      items: [
+        "Arroz cozido: 200g ou macarrão cozido: 200g ou cuscuz cozido: 200g",
+        "Carne bovina magra ou frango: 180g",
+        "Vegetais cozidos: 150g",
+        "Salada verde: à vontade",
+      ],
+    },
+    {
+      name: "Ceia",
+      time: "21:30",
+      notes: "Whey só se ainda faltar proteína no dia",
+      items: [
+        "Iogurte natural/desnatado: 170g",
+        "Whey protein: 30g, se necessário para completar a proteína",
+      ],
+    },
+  ],
+} as const;
