@@ -11,8 +11,13 @@ const globalForReminders = globalThis as unknown as {
   mealReminderTimer?: ReturnType<typeof setInterval>;
 };
 
-function matchesWindow(nowMinutes: number, targetMinutes: number) {
-  return nowMinutes === targetMinutes || nowMinutes === targetMinutes + 1;
+const SEND_WINDOW_MINUTES = 20;
+
+function isDue(nowMinutes: number, targetMinutes: number) {
+  const day = 24 * 60;
+  const start = ((targetMinutes % day) + day) % day;
+  const elapsed = (nowMinutes - start + day) % day;
+  return elapsed < SEND_WINDOW_MINUTES;
 }
 
 async function dispatchKind(
@@ -48,7 +53,7 @@ async function dispatchKind(
         p256dh: reminder.p256dh,
         auth: reminder.auth,
       },
-      { title, body, url: "/hoje" },
+      { title, body, url: "/hoje", tag: `${kind}-${reminder.mealId}` },
     );
   }
 }
@@ -60,10 +65,10 @@ export async function dispatchDueReminders() {
   const times = await listScheduledTimes();
   for (const time of times) {
     const mealMinutes = parseClock(time);
-    if (matchesWindow(now.minutes, mealMinutes)) {
+    if (isDue(now.minutes, mealMinutes)) {
       await dispatchKind(now.date, time, "due");
     }
-    if (matchesWindow(now.minutes, mealMinutes + 60)) {
+    if (isDue(now.minutes, mealMinutes + 60)) {
       await dispatchKind(now.date, time, "nudge");
     }
   }
@@ -72,11 +77,11 @@ export async function dispatchDueReminders() {
 export function startMealReminders() {
   if (globalForReminders.mealReminderTimer) return;
   globalForReminders.mealReminderTimer = setInterval(() => {
-    void dispatchDueReminders().catch(() => {
-      console.error("Falha ao verificar lembretes de refeição");
+    void dispatchDueReminders().catch((error) => {
+      console.error("Falha ao verificar lembretes de refeição", error);
     });
   }, 20_000);
-  void dispatchDueReminders().catch(() => {
-    console.error("Falha ao verificar lembretes de refeição");
+  void dispatchDueReminders().catch((error) => {
+    console.error("Falha ao verificar lembretes de refeição", error);
   });
 }

@@ -67,8 +67,9 @@ export function NotifyButton({ publicKey }: { publicKey: string }) {
     <section className="rounded-2xl bg-ink p-4 text-white">
       <h2 className="text-lg font-semibold">Avisos no celular</h2>
       <p className="mt-2 text-sm leading-6 text-white/70">
-        No horário de cada refeição chega um aviso. Se você não marcar em uma hora, chega outro.
-        No iPhone, adicione o Prismático à Tela de Início antes de ativar.
+        No horário de cada refeição chega um aviso, mesmo com o navegador fechado. Se você não
+        marcar em uma hora, chega outro. No iPhone, adicione o Prismático à Tela de Início antes de
+        ativar.
       </p>
       <div className="mt-4 grid grid-cols-2 gap-2">
         <button

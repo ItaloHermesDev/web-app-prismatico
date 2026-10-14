@@ -28,7 +28,7 @@ function ensureWebPush() {
 
 export async function sendPush(
   target: PushTarget,
-  payload: { title: string; body: string; url?: string },
+  payload: { title: string; body: string; url?: string; tag?: string },
 ) {
   if (!ensureWebPush()) return false;
 
@@ -39,6 +39,7 @@ export async function sendPush(
         keys: { p256dh: target.p256dh, auth: target.auth },
       },
       JSON.stringify({ ...payload, url: payload.url ?? "/hoje" }),
+      { TTL: 60 * 60, urgency: "high" },
     );
     return true;
   } catch (error) {

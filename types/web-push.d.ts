@@ -17,6 +17,7 @@ declare module "web-push" {
     sendNotification(
       subscription: PushSubscription,
       payload?: string,
+      options?: { TTL?: number; urgency?: "very-low" | "low" | "normal" | "high" },
     ): Promise<SendResult>;
     generateVAPIDKeys(): { publicKey: string; privateKey: string };
   };
