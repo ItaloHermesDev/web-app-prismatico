@@ -47,7 +47,7 @@ export async function sendTestPush() {
       body: "Aviso de teste. Os horários das refeições chegam neste celular.",
       url: "/hoje",
     });
-    if (sent) delivered += 1;
+    if (sent.ok) delivered += 1;
   }
 
   if (delivered === 0) {

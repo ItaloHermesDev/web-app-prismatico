@@ -21,8 +21,10 @@ async function run(request: Request) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
 
-  await dispatchDueReminders();
-  return NextResponse.json({ ok: true });
+  const report = await dispatchDueReminders({
+    retry: url.searchParams.get("reenviar") === "1",
+  });
+  return NextResponse.json(report);
 }
 
 export function GET(request: Request) {

@@ -593,6 +593,24 @@ export async function deletePushSubscription(id: number) {
   await pool.execute("DELETE FROM push_subscriptions WHERE id = ?", [id]);
 }
 
+export async function releaseDispatch(input: {
+  userId: number;
+  mealId: number;
+  logDate: string;
+  kind: "due" | "nudge";
+}) {
+  await pool.execute(
+    `DELETE FROM notification_dispatches
+     WHERE user_id = ? AND meal_id = ? AND log_date = ? AND kind = ?`,
+    [input.userId, input.mealId, input.logDate, input.kind],
+  );
+}
+
+export async function clearDispatchesForDate(logDate: string) {
+  await ensureMealSchema();
+  await pool.execute("DELETE FROM notification_dispatches WHERE log_date = ?", [logDate]);
+}
+
 export async function claimDispatch(input: {
   userId: number;
   mealId: number;
@@ -633,7 +651,7 @@ export async function listDueReminders(logDate: string, timeLabel: string) {
      FROM push_subscriptions
      INNER JOIN meal_plans ON meal_plans.user_id = push_subscriptions.user_id
      INNER JOIN meals ON meals.plan_id = meal_plans.id
-     WHERE meals.time_label = ?`,
+     WHERE TRIM(meals.time_label) = ?`,
     [timeLabel],
   );
   return rows.map((row) => ({

@@ -20,7 +20,7 @@ function ensureWebPush() {
   const keys = vapidKeys();
   if (!keys) return false;
   if (!configured) {
-    webpush.setVapidDetails("mailto:prismatico@localhost", keys.publicKey, keys.privateKey);
+    webpush.setVapidDetails("mailto:avisos@prismatico.app", keys.publicKey, keys.privateKey);
     configured = true;
   }
   return true;
@@ -30,7 +30,7 @@ export async function sendPush(
   target: PushTarget,
   payload: { title: string; body: string; url?: string; tag?: string },
 ) {
-  if (!ensureWebPush()) return false;
+  if (!ensureWebPush()) return { ok: false as const, status: 0 };
 
   try {
     await webpush.sendNotification(
@@ -41,7 +41,7 @@ export async function sendPush(
       JSON.stringify({ ...payload, url: payload.url ?? "/hoje" }),
       { TTL: 60 * 60, urgency: "high" },
     );
-    return true;
+    return { ok: true as const, status: 201 };
   } catch (error) {
     const status =
       typeof error === "object" && error !== null && "statusCode" in error
@@ -50,7 +50,7 @@ export async function sendPush(
     if (status === 404 || status === 410) {
       await deletePushSubscription(target.id);
     }
-    console.error("Falha ao enviar aviso");
-    return false;
+    console.error("Falha ao enviar aviso", status);
+    return { ok: false as const, status };
   }
 }
